@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8"> 
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=500" />
+		<meta name="keywords" content="" />
+		<script type="text/javascript" src="js/preloader.js"></script>
+	</head>
+	<body>
+		<progress value="0"></progress>
+		<div class="scrollContent">
+			<h1 id="harrierText">Harrier Jump Jet</h1>
+			<div id="underline"></div>
+			<div id="imagesequence">
+				<img id="myimg" style="width:90%"/><br>
+			</div>
+			
+			<script>
+			
+				var controller;
+				
+				function pad(width, string, padding) { 
+					return (width <= string.length) ? string : pad(width, padding + string, padding)
+				}
+				
+				//define images to preload
+				var images = [],
+					baseName = "jpg/harrier gloss_{0}.jpg"
+				for (i = 0; i <= 5; i++){ //613
+					images.push(baseName.replace('{0}', pad(5, i, '0')))
+				}
+				
+				function _preload(){
+					var dfd = $.Deferred();
+					console.log('preload');
+					
+					var preload = window.preloader.preloadImages(images);
+					console.log(preload);
+					$('progress').attr('max', images.length);
+		
+					preload
+						.progress(function(i, o){
+							console.log('preloading:', i, o);
+							$('progress').attr('value', i);
+						}).done(function(){
+							$('progress').fadeOut();
+							$('body').css('overflow-y', 'auto');
+							console.log('preloading. done');
+							dfd.resolve();
+							
+						}).fail(function(){
+							console.log('preloader failde');
+						});
+					return dfd.promise();
+				}
+				
+				$(document).ready(function($) {
+
+					$.when(_preload()).done(function(){
+					
+						//do something fun here
+				});
+				
+			</script>
+		</div>
+	</body>
+</html>
