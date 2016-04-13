@@ -1,18 +1,3 @@
-/*
-	Publish:
-		navigate
-
-	Subscribe:
-	
-*/
-
-//define([
-//	'jquery'	
-//], function($){
-
-
-	
-	
 		(function(){
 		
 			function preloader(){
@@ -22,7 +7,6 @@
 				function _init(){console.log('preloader.init');}
 				
 				function _preloadImages(imgArr){
-					console.log('preloader.preloadImages', imgArr);
 					imgArr == typeof(imgArr) == "undefined" ? [] : imgArr;
 					var dfd = $.Deferred(),
 						count  = 0,
@@ -32,7 +16,7 @@
 					$.each(imgArr, function(i, o){
 						images[i] = new Image();
 						$(images[i]).load(function(){
-							if (--imagesToLoad == 0){
+							if (--imagesToLoad < 0){
 								dfdInitialPreload.resolve();
 								dfd.resolve();
 							} else {
@@ -57,7 +41,6 @@
 			
 		}
 		
-		console.log('preloader.self-executing preloader');
 		window.preloader = preloader();
 			
 	})();
